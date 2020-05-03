@@ -1,4 +1,4 @@
-import AccoutService from './../../plugins/api/AccountService'
+import AccountService from './../../plugins/api/AccountService'
 
 export default {
     state: {
