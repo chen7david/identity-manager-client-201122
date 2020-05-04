@@ -36,26 +36,25 @@ http.interceptors.response.use(async (response) => {
     }
     await store.dispatch('isLoading', false)
     await store.dispatch('setValidation', null)
-    console.log({isRefreshing})
+
     return response
 }, async (error) => {
+    const originalRequest = error.config
     console.log(`api-response-error-object -> ${error}`)
+    console.log(originalRequest)
     const { isCargo, details, directives, payload } = error.response.data
-    
     if(
         !isRefreshing && 
+        !originalRequest.url === '/refresh' &&
         error.response.status === 401 && 
         details.message.includes('expired access-token')
     ){
         isRefreshing = true
-        let refreshToken = localStorage.getItem('refresh-token')
-        error.response.config.headers['x-refresh-token'] = `Bearer ${refreshToken}` 
-        console.log({isRefreshing,d:details.message, isLoading: store.getters.isLoading})
         await store.dispatch('refreshAccessToken')
+        return Promise.reject(error)
     }
 
-    await store.dispatch('isLoading', false)
-    if(isCargo) {
+    if(isCargo && !isRefreshing) {
         if(details.state == 'validation'){
             await store.dispatch('setValidation', details)
         }else{
@@ -63,7 +62,7 @@ http.interceptors.response.use(async (response) => {
         }
         if(directives) await directiveHandler(directives, payload)
     }
-
+    await store.dispatch('isLoading', false)
     return Promise.reject(error)
 })
 export default http
