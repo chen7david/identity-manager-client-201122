@@ -16,7 +16,7 @@
 
       <template v-if="!QRLogin" v-slot:image>      
           <v-col @click="QRLogin = !QRLogin">
-            <QRCode :value="QRLoginURL" size="200"/>
+            <QRCode :value="QRURL" size="200"/>
           </v-col>
       </template>
 
@@ -88,15 +88,15 @@ export default {
             'validate',
             'isLoading'
         ]),
-        QRLoginURL(){
-          const QRURL = {
+        QRURL(){
+          const URL = {
             protocol: 'http',
             hostname: '192.168.50.149',
             port: 8080,
             pathname: 'qrlogin',
             query: {code: this.code}
           }
-          return url.format(QRURL)
+          return url.format(URL)
         }
     },
     methods: {
