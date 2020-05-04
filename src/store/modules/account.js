@@ -58,9 +58,9 @@ export default {
             })
         },
 
-        async qrlogin({commit}, qrloginInfo){
-            const { data } = await AccountService.qrlogin(qrloginInfo)
-            commit('$SET_USER', data.user) 
+        async qrlogin(_, code){
+            const { data } = await AccountService.qrlogin({code}) 
+            console.log({data})
         },
 
         async qrSetLogin({commit}, payload){

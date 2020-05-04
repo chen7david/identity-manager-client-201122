@@ -9,4 +9,8 @@ export default {
     login: async (auth) => {
         return await http.post('/login', auth)
     },
+
+    qrlogin: async (authInfo) => {
+        return await http.post('/qrlogin', authInfo)
+    },
 }

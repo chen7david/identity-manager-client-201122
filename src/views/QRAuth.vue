@@ -6,7 +6,7 @@
                     <v-list-item two-line>
                         <v-list-item-content>
                             <div class="overline">device authorization login</div>
-                            <v-list-item-subtitle>Authorize device for QR-login</v-list-item-subtitle>
+                            <v-list-item-subtitle>Authorize device for QR-login:{{code}}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>  
                     <v-btn v-if="QRLogin" icon fab @click="QRLogin = !QRLogin">
@@ -22,7 +22,7 @@
 
                 <template v-slot:actions>      
                     <v-col>
-                        <v-btn :loading="isLoading" large class="mt-0" elevation="0" block @click="login({authInfo, redirect})">login</v-btn>
+                        <v-btn :loading="isLoading" large class="mt-0" elevation="0" block @click="qrlogin(code)">login</v-btn>
                         <v-divider class="my-5"></v-divider>
                         <v-btn large elevation="0" block router to="/register">cancel</v-btn>
                     </v-col>

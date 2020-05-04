@@ -62,9 +62,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import QRCode from 'qrcode.vue'
 import FlexCenter from './../components/layout/FlexCenter'
 import FormCard from './../components/layout/FormCard'
+import QRCode from 'qrcode.vue'
 import { isMobileOnly } from 'mobile-device-detect'
 import url from 'url'
 
