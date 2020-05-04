@@ -13,4 +13,8 @@ export default {
     qrlogin: async (authInfo) => {
         return await http.post('/qrlogin', authInfo)
     },
+
+    refreshAccessToken: async () => {
+        return await http.patch('/refresh')
+    },
 }

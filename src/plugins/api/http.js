@@ -7,6 +7,8 @@ const http = axios.create({
     timeout: 12000
 })
 
+let isRefreshing = false
+
 /* REQUEST INTERCEPTOR */
 http.interceptors.request.use(async (config) => {
     config.url = encodeURI(config.url)
@@ -24,7 +26,7 @@ http.interceptors.request.use(async (config) => {
 /* RESPONSE INTERCEPTOR */
 http.interceptors.response.use(async (response) => {
     const { isCargo, payload, details } = response.data
-
+    isRefreshing = false
     if(isCargo) {
         response.data = payload
         if(details) await store.dispatch('setSnackbar', details)
@@ -36,7 +38,12 @@ http.interceptors.response.use(async (response) => {
 }, async (error) => {
     console.log(`api-response-error-object -> ${error}`)
     const { isCargo, details, directives, payload } = error.response.data
-    if(error.response.status === 401) console.log('yabadabado!')
+    
+    if(!isRefreshing && error.response.status === 401 && details.message.includes('expired access-token')){
+        isRefreshing = true
+        console.log({d:details.message, isLoading: store.getters.isLoading})
+    }
+
     await store.dispatch('isLoading', false)
     if(isCargo) {
         if(details.state == 'validation'){
