@@ -78,7 +78,7 @@ export default {
 
         async logout({commit}, redirect){
             if(localStorage.getItem('access-token'))
-                await AccountService.logout()
+                // await AccountService.logout()
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
             localStorage.removeItem('user')

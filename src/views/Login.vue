@@ -67,6 +67,7 @@ import FlexCenter from './../components/layout/FlexCenter'
 import FormCard from './../components/layout/FormCard'
 import { isMobileOnly } from 'mobile-device-detect'
 import url from 'url'
+
 export default {
     name:'Login',
     data: () => ({
@@ -86,22 +87,33 @@ export default {
             'validate',
             'isLoading'
         ]),
+
         QRURL(){
           const URL = {
             protocol: 'http',
             hostname: '192.168.50.149',
             port: 8080,
-            pathname: 'qrlogin',
+            pathname: 'qrauth',
             query: {code: this.code}
           }
+          if(this.redirect) URL.query.redirect = this.redirect
           return url.format(URL)
         }
     },
     methods: {
         ...mapActions([
             'login',
-            'qrSetLogin'
         ])
+    },
+    sockets:{
+      connect(){
+        console.log('socket connected', this.$socket.client.id)
+        this.sessionId = this.$socket.client.id
+        this.$socket.client.emit()
+      },
+      qrlogin(){
+
+      }
     },
     mounted(){
        this.code = this.$socket.client.id
