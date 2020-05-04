@@ -9,12 +9,9 @@
                             <v-list-item-subtitle>Authorize device for QR-login:{{code}}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>  
-                    <v-btn v-if="QRLogin" icon fab @click="QRLogin = !QRLogin">
-                        <v-icon>mdi-qrcode</v-icon>
-                    </v-btn>
                 </template>
 
-                <template v-if="!QRLogin" v-slot:image>      
+                <template v-slot:image>      
                     <v-col>
                         <v-avatar color="blue" size="180"></v-avatar>
                     </v-col>

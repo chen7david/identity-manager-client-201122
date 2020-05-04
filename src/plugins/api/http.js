@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../../store'
 import directiveHandler from './directiveHandler'
+
 const http = axios.create({
     baseURL: 'http://192.168.50.149:5000',
     timeout: 12000
@@ -14,6 +15,7 @@ http.interceptors.request.use(async (config) => {
     await store.dispatch('isLoading', true)
     return config
 },async (error) => {
+    if (error.response.status === 401) console.log({isLoading: store.getters.isLoading})
     await store.dispatch('isLoading', false)
     console.log({'req-error->': error})
     return Promise.reject(error)
@@ -34,8 +36,8 @@ http.interceptors.response.use(async (response) => {
 }, async (error) => {
     console.log(`api-response-error-object -> ${error}`)
     const { isCargo, details, directives, payload } = error.response.data
+    if(error.response.status === 401) console.log('yabadabado!')
     await store.dispatch('isLoading', false)
-    
     if(isCargo) {
         if(details.state == 'validation'){
             await store.dispatch('setValidation', details)
