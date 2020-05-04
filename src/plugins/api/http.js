@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../../store'
 import directiveHandler from './directiveHandler'
 const http = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'http://192.168.50.149:5000',
     timeout: 12000
 })
 

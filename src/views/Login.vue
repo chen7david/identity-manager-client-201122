@@ -111,8 +111,8 @@ export default {
         this.sessionId = this.$socket.client.id
         this.$socket.client.emit()
       },
-      qrlogin(){
-
+      qrlogin(data){
+        console.log('socket qrlogin', data)
       }
     },
     mounted(){
