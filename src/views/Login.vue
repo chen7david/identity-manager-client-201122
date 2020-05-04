@@ -75,8 +75,6 @@ export default {
         QRLogin: isMobileOnly,
         code: null,
         redirect: null,
-        isMobileOnly: !isMobileOnly,
-        
     }),
     components: {
         QRCode,
