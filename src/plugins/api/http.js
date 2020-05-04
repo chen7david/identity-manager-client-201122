@@ -12,10 +12,10 @@ http.interceptors.request.use((config) => {
     let accessToken = localStorage.getItem('access-token')
     if(accessToken != null) config.headers.Authorization = `Bearer ${accessToken}`
 
-    store.dispatch('SET_LOADING', true)
+    store.dispatch('isLoading', true)
     return config
 },(error) => {
-    store.dispatch('SET_LOADING', false)
+    store.dispatch('isLoading', false)
     console.log({'req-error': error})
     return Promise.reject(error)
 })
