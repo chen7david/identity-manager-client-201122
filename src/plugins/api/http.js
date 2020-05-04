@@ -14,10 +14,13 @@ http.interceptors.request.use(async (config) => {
     config.url = encodeURI(config.url)
     let accessToken = localStorage.getItem('access-token')
     if(accessToken != null) config.headers.Authorization = `Bearer ${accessToken}`
+    if(isRefreshing) {
+        let refreshToken = localStorage.getItem('refresh-token')
+        if(refreshToken != null) config.headers['x-refresh-token'] = `Bearer ${refreshToken}` 
+    }
     await store.dispatch('isLoading', true)
     return config
 },async (error) => {
-    if (error.response.status === 401) console.log({isLoading: store.getters.isLoading})
     await store.dispatch('isLoading', false)
     console.log({'req-error->': error})
     return Promise.reject(error)
@@ -33,15 +36,22 @@ http.interceptors.response.use(async (response) => {
     }
     await store.dispatch('isLoading', false)
     await store.dispatch('setValidation', null)
-    
+    console.log({isRefreshing})
     return response
 }, async (error) => {
     console.log(`api-response-error-object -> ${error}`)
     const { isCargo, details, directives, payload } = error.response.data
     
-    if(!isRefreshing && error.response.status === 401 && details.message.includes('expired access-token')){
+    if(
+        !isRefreshing && 
+        error.response.status === 401 && 
+        details.message.includes('expired access-token')
+    ){
         isRefreshing = true
-        console.log({d:details.message, isLoading: store.getters.isLoading})
+        let refreshToken = localStorage.getItem('refresh-token')
+        error.response.config.headers['x-refresh-token'] = `Bearer ${refreshToken}` 
+        console.log({isRefreshing,d:details.message, isLoading: store.getters.isLoading})
+        await store.dispatch('refreshAccessToken')
     }
 
     await store.dispatch('isLoading', false)

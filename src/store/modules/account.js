@@ -38,6 +38,11 @@ export default {
             router.push(redirect || '/profile')
         },
 
+        async refreshAccessToken(){
+            const { data } = await AccountService.refreshAccessToken()
+            localStorage.setItem('access-token', data.accessToken)
+        },
+
         async updateEmail(_, updateInfo){
             await AccountService.emailCorrection(updateInfo)
             router.push({
