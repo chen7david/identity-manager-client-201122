@@ -31,8 +31,10 @@ export default {
 
         async login({commit}, {authInfo, redirect}){
             const { data } = await AccountService.login(authInfo)
+            localStorage.setItem('access-token', data.accessToken)
+            localStorage.setItem('refresh-token', data.refreshToken)
+            localStorage.setItem('user', JSON.stringify(data.user))
             commit('$SET_USER', data.user) 
-            console.log({loginRedirect: redirect})
             router.push(redirect || '/profile')
         },
 
@@ -77,10 +79,10 @@ export default {
         async logout({commit}, redirect){
             if(localStorage.getItem('access-token'))
                 await AccountService.logout()
-            commit('$SET_USER', null)
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
             localStorage.removeItem('user')
+            commit('$SET_USER', null)
             router.push(redirect || '/')
         },
 

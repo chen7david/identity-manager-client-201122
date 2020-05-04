@@ -1,62 +1,48 @@
 import axios from 'axios'
 import store from '../../store'
-
+import directiveHandler from './directiveHandler'
 const http = axios.create({
     baseURL: 'http://localhost:5000',
     timeout: 12000
 })
 
 /* REQUEST INTERCEPTOR */
-http.interceptors.request.use((config) => {
+http.interceptors.request.use(async (config) => {
     config.url = encodeURI(config.url)
     let accessToken = localStorage.getItem('access-token')
     if(accessToken != null) config.headers.Authorization = `Bearer ${accessToken}`
-
-    store.dispatch('isLoading', true)
+    await store.dispatch('isLoading', true)
     return config
-},(error) => {
-    store.dispatch('isLoading', false)
-    console.log({'req-error': error})
+},async (error) => {
+    await store.dispatch('isLoading', false)
+    console.log({'req-error->': error})
     return Promise.reject(error)
 })
 
 /* RESPONSE INTERCEPTOR */
-http.interceptors.response.use((response) => {
+http.interceptors.response.use(async (response) => {
+    const { isCargo, payload, details } = response.data
 
-    const { isCargo, payload, details, directives } = response.data
-    console.log({ isCargo, payload, details, directives })
     if(isCargo) {
         response.data = payload
-        /* handle login credentials */ 
-        if(payload) {
-            const { accessToken, refreshToken, user } = payload
-            if(accessToken) localStorage.setItem('access-token', accessToken)
-            if(refreshToken) {
-                localStorage.setItem('refresh-token', refreshToken)
-                localStorage.setItem('user', JSON.stringify(user))
-            }
-        }
-        if(details) store.dispatch('setSnackbar', details)
+        if(details) await store.dispatch('setSnackbar', details)
     }
-
-    store.dispatch('isLoading', false)
-    // store.dispatch('setValidation', null)
+    await store.dispatch('isLoading', false)
+    await store.dispatch('setValidation', null)
     
     return response
-    
-},(error) => {
+}, async (error) => {
     console.log(`api-response-error-object -> ${error}`)
-    const { isCargo, details } = error.response.data
-    // , directives, payload
-    store.dispatch('isLoading', false)
+    const { isCargo, details, directives, payload } = error.response.data
+    await store.dispatch('isLoading', false)
     
     if(isCargo) {
         if(details.state == 'validation'){
-            store.dispatch('setValidation', details)
+            await store.dispatch('setValidation', details)
         }else{
-            store.dispatch('setSnackbar', details)
+            await store.dispatch('setSnackbar', details)
         }
-        // if(directives) handelDirective(directives, payload)
+        if(directives) await directiveHandler(directives, payload)
     }
 
     return Promise.reject(error)
