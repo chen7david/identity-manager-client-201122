@@ -27,6 +27,9 @@ http.interceptors.request.use(async (config) => {
 })
 
 /* RESPONSE INTERCEPTOR */
+
+
+// let subscribers = []
 http.interceptors.response.use(async (response) => {
     const { isCargo, payload, details } = response.data
     isRefreshing = false
@@ -39,25 +42,35 @@ http.interceptors.response.use(async (response) => {
 
     return response
 }, async (error) => {
-    const originalRequest = error.config
-    console.log(`api-response-error-object -> ${error}`)
-    console.log(originalRequest)
-    const { isCargo, details, directives, payload } = error.response.data
+    const { config, response: { status, data } } = error
+
+    console.log(`api-response-error-object -> ${data}`)
+
+    const { isCargo, details, directives, payload } = data
+
+    /* REFRESHING STEP */
     if(
         !isRefreshing && 
-        !originalRequest.url === '/refresh' &&
-        error.response.status === 401 && 
+        !config.url.includes('/refresh') &&
+        status === 401 && 
         details.message.includes('expired access-token')
-    ){
+    ){  
         isRefreshing = true
-        await store.dispatch('refreshAccessToken')
-        return Promise.reject(error)
+        const response = await store.dispatch('refreshAccessToken')
+        const { status, data:{ accessToken } } = response
+        if(status === 200){
+            isRefreshing = false
+            localStorage.setItem('access-token', accessToken)
+            return Promise.resolve(http(config))
+        }
     }
 
-    if(isCargo && !isRefreshing) {
+    if(isCargo) {
         if(details.state == 'validation'){
             await store.dispatch('setValidation', details)
         }else{
+            if(details.message.includes('invalid refresh-token!'))
+                await store.dispatch('logout', '/login')
             await store.dispatch('setSnackbar', details)
         }
         if(directives) await directiveHandler(directives, payload)

@@ -39,8 +39,7 @@ export default {
         },
 
         async refreshAccessToken(){
-            const { data } = await AccountService.refreshAccessToken()
-            localStorage.setItem('access-token', data.accessToken)
+            return await AccountService.refreshAccessToken() 
         },
 
         async updateEmail(_, updateInfo){
