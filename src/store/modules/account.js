@@ -95,7 +95,7 @@ export default {
             localStorage.removeItem('user') 
             commit('$SET_USER', null)
             if(accessToken) await AccountService.logout(accessToken)
-            router.push(redirect || '/')
+            router.push(redirect || '/login')
         },
 
         async resendConfirmationEmail(_, username){

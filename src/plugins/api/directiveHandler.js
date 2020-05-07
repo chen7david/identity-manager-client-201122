@@ -2,7 +2,7 @@ import store from '../../store'
 import router from '../../router'
 
 const directiveHandler = async (directive, payload) => {
-
+    console.log({directive})
     if(directive == 'to-login') await router.push('/login')
     if(directive == 'logout') await store.dispatch('logout')
 
