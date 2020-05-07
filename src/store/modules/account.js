@@ -85,7 +85,7 @@ export default {
                 // await AccountService.logout()
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
-            localStorage.removeItem('user')
+            localStorage.removeItem('user') 
             commit('$SET_USER', null)
             router.push(redirect || '/')
         },

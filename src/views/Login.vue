@@ -71,7 +71,10 @@ import url from 'url'
 export default {
     name:'Login',
     data: () => ({
-        authInfo: {},
+        authInfo: {
+          username: 'david',
+          password: '888888'
+        },
         show: false,
         QRLogin: isMobileOnly,
         code: null,
