@@ -10,8 +10,9 @@ export default {
         return await http.post('/login', auth)
     },
 
-    logout: async (accessToken) => {
-        if(accessToken) http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+    logout: async (refreshToken) => {
+        console.log({refreshToken})
+        if(refreshToken) http.defaults.headers.common['x-refresh-token'] = `Bearer ${refreshToken}`
         return await http.delete('/logout')
     },
 

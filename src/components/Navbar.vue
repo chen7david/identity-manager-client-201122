@@ -50,7 +50,11 @@ export default {
         ...mapActions([
             'logout',
             'login'
-        ])
+        ]),
+        // _logout(){
+        //     const accessToken = localStorage.getItem('access-token')
+        //     this.logout(accessToken)
+        // }
     },
 }
 </script>
