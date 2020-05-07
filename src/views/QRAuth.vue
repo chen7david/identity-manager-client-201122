@@ -13,8 +13,10 @@
 
                 <template v-slot:image>      
                     <v-col>
+                        :{{QRAuthInfo}}
+                            :{{validQR}}
+                            :{{device}}
                         <v-avatar color="blue" size="180">
-                            :{{QRAuthInfo}}
                         </v-avatar>
                     </v-col>
                 </template>
@@ -39,7 +41,9 @@ export default {
     name:'Login',
     data: () => ({
         code: null,
-        QRAuthInfo: null 
+        QRAuthInfo: null,
+        validQR: true,
+        device: null
     }),
     components: {
         FlexCenter,
@@ -55,8 +59,8 @@ export default {
     },
     sockets:{
         qrauthinfo(data){
-            console.log({data})
-            this.QRAuthInfo = data || {}
+            this.validQR = data ? true : false
+            this.QRAuthInfo = data ? data : {}
         }
     },
     methods: {
@@ -66,7 +70,7 @@ export default {
     },
     mounted(){
        this.code = this.$route.query.code
-       this.$socket.client.emit('aox', {code: this.code})
+       this.$socket.client.emit('getqrauthinfo', {code: this.code})
     },
 }
 </script>
