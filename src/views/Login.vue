@@ -106,6 +106,7 @@ export default {
     methods: {
         ...mapActions([
             'login',
+            'handleQRLogin'
         ]), 
     },
     sockets:{
@@ -115,6 +116,7 @@ export default {
       },
       qrlogin(data){
         console.log('socket qrlogin', data)
+        this.handleQRLogin({authState: data})
       }
     },
     mounted(){

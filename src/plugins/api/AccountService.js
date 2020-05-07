@@ -10,6 +10,10 @@ export default {
         return await http.post('/login', auth)
     },
 
+    logout: async () => {
+        return await http.delete('/logout')
+    },
+
     qrlogin: async (authInfo) => {
         return await http.post('/qrlogin', authInfo)
     },

@@ -38,6 +38,14 @@ export default {
             router.push(redirect || '/profile')
         },
 
+        async handleQRLogin({commit}, { authState, redirect}){
+            localStorage.setItem('access-token', authState.accessToken)
+            localStorage.setItem('refresh-token', authState.refreshToken)
+            localStorage.setItem('user', JSON.stringify(authState.user))
+            commit('$SET_USER', authState.user) 
+            router.push(redirect || '/profile')
+        },
+
         async refreshAccessToken(){
             return await AccountService.refreshAccessToken() 
         },
@@ -82,7 +90,7 @@ export default {
 
         async logout({commit}, redirect){
             if(localStorage.getItem('access-token'))
-                // await AccountService.logout()
+                await AccountService.logout()
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
             localStorage.removeItem('user') 
