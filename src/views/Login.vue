@@ -106,13 +106,12 @@ export default {
     methods: {
         ...mapActions([
             'login',
-        ])
+        ]), 
     },
     sockets:{
       connect(){
         console.log('socket connected', this.$socket.client.id)
-        this.sessionId = this.$socket.client.id
-        this.$socket.client.emit()
+        this.code = this.$socket.client.id
       },
       qrlogin(data){
         console.log('socket qrlogin', data)
