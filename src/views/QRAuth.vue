@@ -13,7 +13,9 @@
 
                 <template v-slot:image>      
                     <v-col>
-                        <v-avatar color="blue" size="180"></v-avatar>
+                        <v-avatar color="blue" size="180">
+                            :{{QRAuthInfo}}
+                        </v-avatar>
                     </v-col>
                 </template>
 
@@ -36,7 +38,8 @@ import FormCard from './../components/layout/FormCard'
 export default {
     name:'Login',
     data: () => ({
-        code: null, 
+        code: null,
+        QRAuthInfo: null 
     }),
     components: {
         FlexCenter,
@@ -50,13 +53,20 @@ export default {
           return this.code != 'undefined'
         },
     },
+    sockets:{
+        qrauthinfo(data){
+            console.log({data})
+            this.QRAuthInfo = data || {}
+        }
+    },
     methods: {
         ...mapActions([
           'qrlogin'
-        ])
+        ]),
     },
     mounted(){
        this.code = this.$route.query.code
-    }
+       this.$socket.client.emit('aox', {code: this.code})
+    },
 }
 </script>
