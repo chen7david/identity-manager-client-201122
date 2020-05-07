@@ -28,8 +28,6 @@ http.interceptors.request.use(async (config) => {
 
 /* RESPONSE INTERCEPTOR */
 
-
-// let subscribers = []
 http.interceptors.response.use(async (response) => {
     const { isCargo, payload, details } = response.data
     isRefreshing = false
@@ -44,7 +42,7 @@ http.interceptors.response.use(async (response) => {
 }, async (error) => {
     const { config, response: { status, data } } = error
 
-    console.log(`api-response-error-object -> ${data}`)
+    console.log({data})
 
     const { isCargo, details, directives, payload } = data
 

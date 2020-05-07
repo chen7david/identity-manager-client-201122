@@ -89,12 +89,12 @@ export default {
         },
 
         async logout({commit}, redirect){
-            if(localStorage.getItem('access-token'))
-                await AccountService.logout()
+            const accessToken = localStorage.getItem('access-token')
             localStorage.removeItem('access-token')
             localStorage.removeItem('refresh-token')
             localStorage.removeItem('user') 
             commit('$SET_USER', null)
+            if(accessToken) await AccountService.logout(accessToken)
             router.push(redirect || '/')
         },
 

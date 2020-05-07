@@ -10,7 +10,8 @@ export default {
         return await http.post('/login', auth)
     },
 
-    logout: async () => {
+    logout: async (accessToken) => {
+        if(accessToken) http.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
         return await http.delete('/logout')
     },
 
