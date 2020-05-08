@@ -6,7 +6,7 @@
           <v-list-item two-line>
             <v-list-item-content>
                 <div class="overline">login</div>
-                <v-list-item-subtitle>QRLogin Supported on this device</v-list-item-subtitle>
+                <v-list-item-subtitle>Scan QR with your phone to login.</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>  
           <v-btn v-if="QRLogin" icon fab @click="QRLogin = !QRLogin">
