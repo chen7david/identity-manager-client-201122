@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import store from './../store'
 
 Vue.use(VueRouter)
 
@@ -8,7 +8,7 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: () => import('../views/Home.vue'),
   },
   {
     path: '/register',
@@ -26,13 +26,13 @@ Vue.use(VueRouter)
     path: '/qrauth',
     name: 'QRAuth',
     component: () => import('../views/QRAuth.vue'),
-    meta: { authForbidden: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/Profile.vue'),
-    meta: { authForbidden: true }
+    meta: { requiresAuth: true }
   },
 ]
 
@@ -40,6 +40,26 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  
+  let auth = store._vm.isAuth
+  
+  if (await to.matched.some(record => record.meta.requiresAuth)) {
+
+    if (!auth) {
+      console.log({auth})
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
