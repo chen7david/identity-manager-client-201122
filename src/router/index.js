@@ -28,6 +28,12 @@ Vue.use(VueRouter)
     component: () => import('../views/QRAuth.vue'),
     meta: { authForbidden: true }
   },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    meta: { authForbidden: true }
+  },
 ]
 
 const router = new VueRouter({

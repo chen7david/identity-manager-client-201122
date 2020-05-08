@@ -94,7 +94,7 @@ export default {
         QRURL(){
           const URL = {
             protocol: 'http',
-            hostname: '192.168.50.149',
+            hostname: '192.168.50.124',
             port: 8080,
             pathname: 'qrauth',
             query: {code: this.code}
