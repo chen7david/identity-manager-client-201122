@@ -119,12 +119,13 @@ export default {
 
         async sendPasswordRevoceryEmail(_, username){
             await AccountService.requestPasswordRecovery({username})
-            router.push('/login')
+            router.push('/home')
         },
 
         async recoverPassword({commit}, user){
             const { data } = await AccountService.recoverPassword(user)
             commit('$SET_USER', data.user) 
+            router.push('/login')
         },  
     },
   }
