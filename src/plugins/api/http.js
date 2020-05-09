@@ -42,7 +42,7 @@ http.interceptors.response.use(async (response) => {
 }, async (error) => {
     const { config, response: { status, data } } = error
 
-    console.log({data})
+    console.log({data, error})
 
     const { isCargo, details, directives, payload } = data
 

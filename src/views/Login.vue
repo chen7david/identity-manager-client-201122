@@ -49,10 +49,11 @@
       </template>
 
       <template v-slot:actions>      
-          <v-col>
-            <v-btn v-if="QRLogin" :loading="isLoading" large class="mt-0" elevation="0" block @click="login({authInfo, redirect})">login</v-btn>
-            <v-divider v-if="QRLogin" class="my-5"></v-divider>
-            <v-btn v-if="QRLogin" large elevation="0" block router to="/register">register</v-btn>
+          <v-col v-if="QRLogin">
+            <v-btn :loading="isLoading" large class="mt-0" elevation="0" block @click="login({authInfo, redirect})">login</v-btn>
+            <v-divider class="my-5"></v-divider>
+            <v-btn :loading="isLoading" dark color="warning" v-if="invalidPassword" large elevation="0" block @click="sendPasswordRevoceryEmail(authInfo.username)">recover password</v-btn>
+            <v-btn v-else large elevation="0" block router to="/register">register</v-btn>
           </v-col>
       </template>
     </FormCard>
@@ -101,12 +102,16 @@ export default {
           }
           if(this.redirect) URL.query.redirect = this.redirect
           return url.format(URL)
+        }, 
+        invalidPassword(){
+          return this.validate('password') != null
         }
     },
     methods: {
         ...mapActions([
             'login',
-            'handleQRLogin'
+            'handleQRLogin',
+            'sendPasswordRevoceryEmail'
         ]), 
     },
     sockets:{

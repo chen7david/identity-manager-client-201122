@@ -5,16 +5,19 @@ export default {
     
     state: {
         $user: JSON.parse(localStorage.getItem('user')),
+        rqlogedin: false
     },
 
     getters: {
         isAuth: (state) => state.$user != null,
         $user: (state) => state.$user ? state.$user : {},
         me: (state) => state.$user ? state.$user : {},
+        rqlogedin: (state) => state.rqlogedin ,
     },
 
     mutations: {
         $SET_USER: (state, user) => state.$user = user,
+        $SET_QRLOGEDIN: (state, boolean) => state.rqlogedin = boolean,
     },
     actions: {
 
@@ -70,8 +73,9 @@ export default {
             })
         },
 
-        async qrlogin(_, code){
+        async qrlogin({commit}, code){
             const { data } = await AccountService.qrlogin({code}) 
+            commit('$SET_QRLOGEDIN', true)
             console.log({data})
         },
 
@@ -114,10 +118,11 @@ export default {
         },
 
         async sendPasswordRevoceryEmail(_, username){
-            await AccountService.sendPasswordRecoveryEmail({username})
+            await AccountService.requestPasswordRecovery({username})
+            router.push('/login')
         },
 
-        async revocerPassword({commit}, user){
+        async recoverPassword({commit}, user){
             const { data } = await AccountService.recoverPassword(user)
             commit('$SET_USER', data.user) 
         },  

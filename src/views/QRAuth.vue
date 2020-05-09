@@ -12,7 +12,7 @@
 
                 <template v-slot:image>      
                     <v-col>
-                        <v-avatar color="blue" size="180">
+                        <v-avatar :color="rqlogedin ? 'green' :'blue'" size="180">
                             <div v-if="validQR">
                                 <v-icon size="100px" v-if="QRAuthInfo.isDesktop">mdi-desktop-mac</v-icon>
                                 <v-icon size="100px" v-if="QRAuthInfo.isTablet">mdi-tablet-ipad</v-icon>
@@ -23,7 +23,6 @@
                             <div v-else>
                                 <v-icon size="100px">mdi-information</v-icon>
                             </div>
-
                         </v-avatar>
                         <v-chip v-if="validQR" class="overline mt-5">
                             {{QRAuthInfo.os}}
@@ -39,7 +38,7 @@
 
                 <template v-slot:actions>      
                     <v-col>
-                        <v-btn :disabled="!validQR" :loading="isLoading" large class="mt-0" elevation="0" block @click="qrlogin(code)">login</v-btn>
+                        <v-btn :disabled="!validQR || rqlogedin" :loading="isLoading" large class="mt-0" elevation="0" block @click="qrlogin(code)">login</v-btn>
                         <v-divider class="my-5"></v-divider>
                         <v-btn large elevation="0" block router to="/register">cancel</v-btn>
                     </v-col>
@@ -59,7 +58,7 @@ export default {
     data: () => ({
         code: null,
         QRAuthInfo: {},
-        validQR: true
+        validQR: true,
     }),
     components: {
         FlexCenter,
@@ -67,7 +66,8 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isLoading'
+            'isLoading',
+            'rqlogedin'
         ]),
         valid(){
           return this.code != 'undefined'

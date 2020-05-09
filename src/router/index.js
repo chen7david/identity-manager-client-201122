@@ -34,6 +34,12 @@ Vue.use(VueRouter)
     component: () => import('../views/Profile.vue'),
     meta: { requiresAuth: true }
   },
+  {
+    path: '/password-recover',
+    name: 'PasswordRecover',
+    component: () => import('../views/PasswordRecover.vue'),
+    meta: { authForbidden: true }
+  },
 ]
 
 const router = new VueRouter({
