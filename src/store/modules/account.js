@@ -23,11 +23,11 @@ export default {
         /* MANAGEMENT */
 
         async register(_, registerInfo){
-            const user = await AccountService.register(registerInfo)
+            const { data } = await AccountService.register(registerInfo)
             router.push({
                 name: 'EmailConfirm',
                 query: {
-                    username: user.email
+                    username: data.email
                 }
             })
         },
