@@ -1,9 +1,10 @@
 import axios from 'axios'
 import store from '../../store'
 import directiveHandler from './directiveHandler'
-
+import url from 'url'
+import config from './../../../config/default'
 const http = axios.create({
-    baseURL: 'http://192.168.50.124:5000',
+    baseURL: url.format(config.server),
     timeout: 12000
 })
 
