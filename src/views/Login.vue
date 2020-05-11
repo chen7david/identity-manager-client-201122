@@ -15,8 +15,8 @@
       </template>
 
       <template v-if="!QRLogin" v-slot:image>      
-          <v-col @click="QRLogin = !QRLogin">
-            <QRCode :value="QRURL" size="200"/>
+          <v-col @click="QRLogin = !QRLogin" class="mb-5">
+            <QRCode :value="QRURL" size="250"/>
           </v-col>
       </template>
 

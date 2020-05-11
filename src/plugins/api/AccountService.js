@@ -16,6 +16,18 @@ export default {
         return await http.patch('/recover-password', recoverPasswordInfo)
     },
 
+    updateEmail: async (updateEmialInfo) => {
+        return await http.patch('/update-email', updateEmialInfo)
+    },
+
+    resendEmail: async (resendEmialInfo) => {
+        return await http.post('/update-email', resendEmialInfo)
+    },
+
+    confirmEmail: async (resendEmialInfo) => {
+        return await http.patch('/update-email', resendEmialInfo)
+    },
+
     /* AUTHENTICATION */
     login: async (auth) => {
         return await http.post('/login', auth)

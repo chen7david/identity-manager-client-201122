@@ -7,7 +7,7 @@ const directiveHandler = async (directive, payload) => {
     if(directive == 'logout') await store.dispatch('logout')
 
     if(directive == 'confirm-email') await router.push({
-        name: 'EmailManagement',
+        name: 'EmailConfirm',
         query: {
             username: payload.email
         }

@@ -40,6 +40,12 @@ Vue.use(VueRouter)
     component: () => import('../views/PasswordRecover.vue'),
     meta: { authForbidden: true }
   },
+  {
+    path: '/email-confirm',
+    name: 'EmailConfirm',
+    component: () => import('../views/EmailConfirm.vue'),
+    meta: { authForbidden: true }
+  },
 ]
 
 const router = new VueRouter({

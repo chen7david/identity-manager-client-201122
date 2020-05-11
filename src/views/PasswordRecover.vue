@@ -58,7 +58,7 @@ import FlexCenter from './../components/layout/FlexCenter'
 import FormCard from './../components/layout/FormCard'
 
 export default {
-    name:'Login',
+    name:'PasswordRecover',
     components: {
         FlexCenter,
         FormCard
