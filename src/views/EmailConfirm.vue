@@ -28,7 +28,7 @@
 
          <v-col>
             <v-text-field
-              :error-messages="validate('username')"
+              :error-messages="validate('code')"
               label="code"
               name="code"
               outlined
@@ -41,7 +41,7 @@
       <template v-slot:actions>      
           <v-col>
             <v-btn v-if="showConfirm" dark color="blue" :loading="isLoading" large class="mt-0" elevation="0" block @click="confirmEmail(code)">confirm email</v-btn>
-            <v-btn v-else dark color="warning" :loading="isLoading" large class="mt-0" elevation="0" block @click="resendEmailConfirmation(username, email)">resend email</v-btn>
+            <v-btn v-else dark color="warning" :loading="isLoading" large class="mt-0" elevation="0" block @click="resendConfirmation(username, email)">resend email</v-btn>
           </v-col>
       </template>
     </FormCard>
@@ -81,18 +81,22 @@ export default {
             'patchEmail',
             'resendConfirmationEmail'
         ]),
-        async resendEmailConfirmation(username, email){
-          if(username == email){
+        async resendConfirmation(username, email){
+          if(username != email){
             await this.patchEmail({username, email})
           }else{
-            await this.resendConfirmationEmail(username)
+            await this.resendConfirmationEmail(email)
           }
+          this.setState()
         },
+        setState(){
+          this.code = this.$route.query.code
+          this.username = this.$route.query.username
+          this.email = this.$route.query.username
+        }
     },
     mounted(){
-           this.code = this.$route.query.code
-           this.username = this.$route.query.username
-           this.email = this.$route.query.username
+       this.setState()
     }   
 }
 </script>

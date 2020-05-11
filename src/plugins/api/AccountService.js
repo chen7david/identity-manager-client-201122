@@ -20,7 +20,7 @@ export default {
         return await http.patch('/update-email', updateEmialInfo)
     },
 
-    resendEmail: async (resendEmialInfo) => {
+    resendEmailConfirmation: async (resendEmialInfo) => {
         return await http.post('/resend-email-confirmation', resendEmialInfo)
     },
 
