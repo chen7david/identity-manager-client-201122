@@ -40,8 +40,8 @@
 
       <template v-slot:actions>      
           <v-col>
-            <v-btn v-if="showConfirm" dark color="blue" :loading="isLoading" large class="mt-0" elevation="0" block @click="recoverPassword({username, })">confirm email</v-btn>
-            <v-btn v-else dark color="warning" :loading="isLoading" large class="mt-0" elevation="0" block @click="manageEmail({username, email})">resend email</v-btn>
+            <v-btn v-if="showConfirm" dark color="blue" :loading="isLoading" large class="mt-0" elevation="0" block @click="confirmEmail(code)">confirm email</v-btn>
+            <v-btn v-else dark color="warning" :loading="isLoading" large class="mt-0" elevation="0" block @click="resendEmailConfirmation(username, email)">resend email</v-btn>
           </v-col>
       </template>
     </FormCard>
@@ -77,8 +77,17 @@ export default {
     },
     methods: {
         ...mapActions([
-            'manageEmail'
-        ]), 
+            'confirmEmail',
+            'patchEmail',
+            'resendConfirmationEmail'
+        ]),
+        async resendEmailConfirmation(username, email){
+          if(username == email){
+            await this.patchEmail({username, email})
+          }else{
+            await this.resendConfirmationEmail(username)
+          }
+        },
     },
     mounted(){
            this.code = this.$route.query.code

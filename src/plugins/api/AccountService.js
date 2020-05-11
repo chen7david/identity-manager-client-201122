@@ -21,11 +21,11 @@ export default {
     },
 
     resendEmail: async (resendEmialInfo) => {
-        return await http.post('/update-email', resendEmialInfo)
+        return await http.post('/resend-email-confirmation', resendEmialInfo)
     },
 
     confirmEmail: async (resendEmialInfo) => {
-        return await http.patch('/update-email', resendEmialInfo)
+        return await http.patch('/confirm-email', resendEmialInfo)
     },
 
     /* AUTHENTICATION */

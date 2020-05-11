@@ -25,7 +25,7 @@ export default {
         async register(_, registerInfo){
             const user = await AccountService.register(registerInfo)
             router.push({
-                name: 'EmailManagement',
+                name: 'EmailConfirm',
                 query: {
                     username: user.email
                 }
@@ -35,7 +35,7 @@ export default {
         async updateEmail(_, updateInfo){
             await AccountService.emailCorrection(updateInfo)
             router.push({
-                path: 'email-management',
+                name: 'EmailConfirm',
                 query: {
                     username: updateInfo.email
                 }
@@ -43,9 +43,9 @@ export default {
         },
 
         async patchEmail(_, updateInfo){
-            await AccountService.emailUpdate(updateInfo)
+            await AccountService.updateEmail(updateInfo)
             router.push({
-                name: 'EmailManagement',
+                name: 'EmailConfirm',
                 query: {
                     username: updateInfo.email
                 }
