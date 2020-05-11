@@ -17,6 +17,7 @@
                             label="Username"
                             name="username"
                             outlined
+                            clearable
                             hint="At least 1 character, no spaces"
                             v-model="registerInfo.username"
                         ></v-text-field>
@@ -28,6 +29,7 @@
                             label="Email"
                             name="email"
                             outlined
+                            clearable
                             hint="please enter a valid email"
                             v-model="registerInfo.email"
                         ></v-text-field>
@@ -38,6 +40,7 @@
                             label="Password"
                             name="password"
                             outlined
+                            clearable
                             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="show ? 'text' : 'password'"
                             hint="At least 6 characters"

@@ -18,6 +18,7 @@
               label="Password"
               name="password"
               outlined
+              clearable
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show ? 'text' : 'password'"
               hint="At least 6 characters"
@@ -32,6 +33,7 @@
               label="Password Confirm"
               name="passwordConfirm"
               outlined
+              clearable
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show ? 'text' : 'password'"
               hint="At least 6 characters"
