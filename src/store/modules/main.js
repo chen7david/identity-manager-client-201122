@@ -1,10 +1,14 @@
+import url from 'url'
+import config from './../../../config/default'
 export default {
     state: {
       isLoading: false,
       validation: null,
       snackbar: null,
+      baseURL: url.format(config.client)
     },
     getters: {
+      baseURL: (state) => state.baseURL,
       validate: (state) => (key) => {
         let error = state.validation ? state.validation.messages.filter(el => el.key == key)[0] : null
         error = error ? error : {}

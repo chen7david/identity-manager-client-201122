@@ -25,7 +25,8 @@ export default {
   }),
   computed: {
     ...mapGetters([
-      'socket'
+      'socket',
+      'baseURL'
     ])
   },
   methods: {
