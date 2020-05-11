@@ -89,17 +89,15 @@ export default {
     computed: {
         ...mapGetters([
             'validate',
-            'isLoading'
+            'isLoading',
+            'config'
         ]),
 
         QRURL(){
-          const URL = {
-            protocol: 'http',
-            hostname: '192.168.50.124',
-            port: 8080,
-            pathname: 'qrauth',
-            query: {code: this.code}
-          }
+          const URL = Object.assign(this.config.client, {
+              pathname: 'qrauth',
+              query: {code: this.code}
+          })
           if(this.redirect) URL.query.redirect = this.redirect
           return url.format(URL)
         }, 

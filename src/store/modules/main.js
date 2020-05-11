@@ -5,10 +5,12 @@ export default {
       isLoading: false,
       validation: null,
       snackbar: null,
-      baseURL: url.format(config.client)
+      baseURL: url.format(config.client),
+      config,
     },
     getters: {
       baseURL: (state) => state.baseURL,
+      config: (state) => state.config,
       validate: (state) => (key) => {
         let error = state.validation ? state.validation.messages.filter(el => el.key == key)[0] : null
         error = error ? error : {}
