@@ -14,7 +14,7 @@ import Navbar from './components/Navbar'
 import Snackbar from './components/Snackbar'
 export default {
   name: 'App',
-
+  
   components: {
       Navbar,
       Snackbar
